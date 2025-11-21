@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bookify.Data.Data  // Changed namespace
+namespace Bookify.Data.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

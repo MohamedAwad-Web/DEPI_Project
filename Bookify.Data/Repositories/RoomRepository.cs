@@ -1,5 +1,5 @@
 ﻿using Bookify.Core.Models;
-using Bookify.Data.Data;  // Updated reference
+using Bookify.Data.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bookify.Data.Repositories

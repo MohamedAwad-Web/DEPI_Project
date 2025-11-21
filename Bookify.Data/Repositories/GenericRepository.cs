@@ -1,4 +1,4 @@
-﻿using Bookify.Data.Data;  // This references the DbContext in Bookify.Web
+﻿using Bookify.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

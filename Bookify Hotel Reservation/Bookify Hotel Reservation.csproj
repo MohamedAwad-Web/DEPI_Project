@@ -4,7 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Bookify_Hotel_Reservation</RootNamespace>
+    <RootNamespace>BookifyHotelReservation</RootNamespace>
+    <AssemblyName>BookifyHotelReservation</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Bookify.Core\Bookify.Core.csproj" />
     <ProjectReference Include="..\Bookify.Services\Bookify.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>
