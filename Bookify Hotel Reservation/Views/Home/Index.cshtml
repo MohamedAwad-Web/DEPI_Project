@@ -1,8 +1,49 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Bookify.Core.Models.Room>
+
+@{
+    ViewData["Title"] = "Available Rooms";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <h2>Available Rooms</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <h4>No rooms available at the moment.</h4>
+            <p>Please check back later or contact administration.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var room in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Room @room.RoomNumber</h5>
+                            <p class="card-text">
+                                <strong>Type:</strong> @room.RoomType?.Name<br>
+                                <strong>Price:</strong> $@room.RoomType?.Price per night<br>
+                                <strong>Max Guests:</strong> @room.RoomType?.MaxGuests<br>
+                                <strong>Status:</strong>
+                                <span class="badge @(room.IsAvailable ? "bg-success" : "bg-danger")">
+                                    @(room.IsAvailable ? "Available" : "Occupied")
+                                </span>
+                            </p>
+                            @if (room.IsAvailable)
+                            {
+                                <a asp-action="Details" asp-route-id="@room.Id" class="btn btn-primary">Book Now</a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary" disabled>Not Available</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
 </div>

@@ -1,0 +1,75 @@
+﻿@model Bookify.Core.Models.RoomDetailsViewModel
+
+@{
+    ViewData["Title"] = "Room Details";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Room @Model.Room.RoomNumber - @Model.Room.RoomType.Name</h2>
+            <p class="text-muted">@Model.Room.RoomType.Description</p>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Room Details</h5>
+                    <p><strong>Price per night:</strong> $@Model.Room.RoomType.Price</p>
+                    <p><strong>Maximum Guests:</strong> @Model.Room.RoomType.MaxGuests</p>
+                    <p>
+                        <strong>Status:</strong>
+                        <span class="badge @(Model.Room.IsAvailable ? "bg-success" : "bg-danger")">
+                            @(Model.Room.IsAvailable ? "Available" : "Occupied")
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Book This Room</h5>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger">@TempData["Error"]</div>
+                    }
+
+                    <form method="post" asp-action="AddToCart">
+                        <input type="hidden" name="roomId" value="@Model.Room.Id" />
+
+                        <div class="mb-3">
+                            <label for="checkInDate" class="form-label">Check-in Date</label>
+                            <input type="date" class="form-control" id="checkInDate" name="checkInDate"
+                                   value="@Model.CheckInDate.ToString("yyyy-MM-dd")" min="@DateTime.Today.ToString("yyyy-MM-dd")" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="checkOutDate" class="form-label">Check-out Date</label>
+                            <input type="date" class="form-control" id="checkOutDate" name="checkOutDate"
+                                   value="@Model.CheckOutDate.ToString("yyyy-MM-dd")" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100" @(Model.Room.IsAvailable ? "" : "disabled")>
+                            @(Model.Room.IsAvailable ? "Add to Cart" : "Not Available")
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Set minimum for check-out date based on check-in date
+        document.getElementById('checkInDate').addEventListener('change', function() {
+            const checkOutDate = document.getElementById('checkOutDate');
+            checkOutDate.min = this.value;
+            if (checkOutDate.value < this.value) {
+                checkOutDate.value = this.value;
+            }
+        });
+    </script>
+}

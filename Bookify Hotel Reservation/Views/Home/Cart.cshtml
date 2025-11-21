@@ -1,0 +1,54 @@
+﻿@model Bookify.Core.Models.ReservationCart
+
+@{
+    ViewData["Title"] = "Reservation Cart";
+}
+
+<div class="container mt-4">
+    <h2>Your Reservation Cart</h2>
+
+    @if (Model == null)
+    {
+        <div class="alert alert-info">
+            <h4>Your cart is empty</h4>
+            <p>Browse our <a asp-action="Index">available rooms</a> to make a reservation.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Reservation Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Room:</strong> @Model.RoomNumber - @Model.RoomType</p>
+                        <p><strong>Check-in:</strong> @Model.CheckInDate.ToString("MMM dd, yyyy")</p>
+                        <p><strong>Check-out:</strong> @Model.CheckOutDate.ToString("MMM dd, yyyy")</p>
+                        <p><strong>Nights:</strong> @Model.NumberOfNights</p>
+                        <p><strong>Price per night:</strong> $@Model.PricePerNight</p>
+                        <h5><strong>Total: $@Model.TotalPrice</strong></h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Ready to Book?</h5>
+                        <p>Complete your reservation by proceeding to checkout.</p>
+
+                        <div class="d-grid gap-2">
+                            <a href="#" class="btn btn-success">Proceed to Checkout</a>
+                            <form method="post" asp-action="ClearCart">
+                                <button type="submit" class="btn btn-outline-danger w-100">Clear Cart</button>
+                            </form>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -34,6 +34,15 @@ namespace Bookify.Data.Data
                 .HasOne(b => b.User)
                 .WithMany(u => u.Bookings)
                 .HasForeignKey(b => b.UserId);
+
+            // Fix decimal precision warnings
+            builder.Entity<Booking>()
+                .Property(b => b.TotalCost)
+                .HasPrecision(18, 2); // 18 total digits, 2 decimal places
+
+            builder.Entity<RoomType>()
+                .Property(rt => rt.Price)
+                .HasPrecision(18, 2); // 18 total digits, 2 decimal places
         }
     }
 }

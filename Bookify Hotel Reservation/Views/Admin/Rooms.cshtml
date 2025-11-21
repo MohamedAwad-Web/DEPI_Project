@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Bookify.Core.Models.Room>
+
+@{
+    ViewData["Title"] = "Manage Rooms";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Manage Rooms</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="#" class="btn btn-sm btn-outline-primary">Add New Room</a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>Room Number</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Max Guests</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var room in Model)
+                {
+                    <tr>
+                        <td>@room.RoomNumber</td>
+                        <td>@room.RoomType?.Name</td>
+                        <td>$@room.RoomType?.Price</td>
+                        <td>@room.RoomType?.MaxGuests</td>
+                        <td>
+                            <span class="badge @(room.IsAvailable ? "bg-success" : "bg-danger")">
+                                @(room.IsAvailable ? "Available" : "Occupied")
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="#" class="btn btn-outline-primary">Edit</a>
+                                <a href="#" class="btn btn-outline-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
