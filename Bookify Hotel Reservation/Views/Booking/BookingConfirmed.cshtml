@@ -1,0 +1,65 @@
+﻿@model Bookify.Core.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Confirmed!";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h2 class="mb-0"><i class="bi bi-check-circle-fill"></i> Booking Confirmed!</h2>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-check-circle text-success display-1"></i>
+                        <h3 class="text-success mt-3">Your Reservation is Confirmed!</h3>
+                        <p class="lead">We're looking forward to your stay with us.</p>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Reservation Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Confirmation #:</strong> #@Model.Id</p>
+                                    <p><strong>Room:</strong> @(Model.Room?.RoomNumber ?? "Unknown") - @(Model.Room?.RoomType?.Name ?? "Unknown Type")</p>
+                                    <p><strong>Check-in:</strong> @Model.CheckInDate.ToString("MMM dd, yyyy")</p>
+                                    <p><strong>Check-out:</strong> @Model.CheckOutDate.ToString("MMM dd, yyyy")</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Guest:</strong> @Model.GuestName</p>
+                                    <p><strong>Duration:</strong> @Model.NumberOfNights nights</p>
+                                    <p><strong>Total Amount:</strong> $@Model.TotalCost</p>
+                                    <p><strong>Status:</strong> <span class="badge bg-success">@Model.Status</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h6><i class="bi bi-info-circle"></i> Important Information</h6>
+                        <ul class="mb-0">
+                            <li>Check-in time: 3:00 PM</li>
+                            <li>Check-out time: 11:00 AM</li>
+                            <li>Please bring a valid ID upon arrival</li>
+                            <li>Contact reception for any special requests</li>
+                        </ul>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">
+                            <i class="bi bi-house"></i> Back to Home
+                        </a>
+                        <a asp-action="MyBookings" class="btn btn-primary">
+                            <i class="bi bi-list-ul"></i> View My Bookings
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

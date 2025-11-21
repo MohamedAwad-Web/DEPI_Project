@@ -11,38 +11,57 @@ namespace Bookify.Data.Data
         {
         }
 
-        public DbSet<RoomType> RoomTypes { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<RoomType> RoomTypes { get; set; } = null!;
+        public DbSet<Room> Rooms { get; set; } = null!;
+        public DbSet<Booking> Bookings { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            // Configure relationships
+            // Configure RoomType -> Rooms relationship
+            builder.Entity<RoomType>()
+                .HasMany(rt => rt.Rooms)
+                .WithOne(r => r.RoomType)
+                .HasForeignKey(r => r.RoomTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure Room -> Bookings relationship
             builder.Entity<Room>()
-                .HasOne(r => r.RoomType)
-                .WithMany(rt => rt.Rooms)
-                .HasForeignKey(r => r.RoomTypeId);
+                .HasMany(r => r.Bookings)
+                .WithOne(b => b.Room)
+                .HasForeignKey(b => b.RoomId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Booking>()
-                .HasOne(b => b.Room)
-                .WithMany(r => r.Bookings)
-                .HasForeignKey(b => b.RoomId);
-
-            builder.Entity<Booking>()
-                .HasOne(b => b.User)
-                .WithMany(u => u.Bookings)
-                .HasForeignKey(b => b.UserId);
+            // Configure ApplicationUser -> Bookings relationship
+            builder.Entity<ApplicationUser>()
+                .HasMany(u => u.Bookings)
+                .WithOne(b => b.User)
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Fix decimal precision warnings
             builder.Entity<Booking>()
                 .Property(b => b.TotalCost)
-                .HasPrecision(18, 2); // 18 total digits, 2 decimal places
+                .HasPrecision(18, 2);
 
             builder.Entity<RoomType>()
                 .Property(rt => rt.Price)
-                .HasPrecision(18, 2); // 18 total digits, 2 decimal places
+                .HasPrecision(18, 2);
+
+            // Ensure required fields
+            builder.Entity<Booking>()
+                .Property(b => b.Status)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            builder.Entity<Booking>()
+                .Property(b => b.UserId)
+                .IsRequired();
+
+            builder.Entity<Booking>()
+                .Property(b => b.RoomId)
+                .IsRequired();
         }
     }
 }

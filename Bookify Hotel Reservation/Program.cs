@@ -41,6 +41,11 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddControllersWithViews();
 
+// Add HttpContextAccessor and Payment Service
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<PaymentService>();
+builder.Services.AddScoped<ReservationCartService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

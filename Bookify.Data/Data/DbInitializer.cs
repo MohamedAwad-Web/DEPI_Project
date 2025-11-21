@@ -104,6 +104,7 @@ namespace Bookify.Data.Data
 
         private static async Task CreateRooms(ApplicationDbContext context)
         {
+
             var roomTypes = context.RoomTypes.ToList();
 
             var rooms = new List<Room>();

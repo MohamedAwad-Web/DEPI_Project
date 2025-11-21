@@ -1,6 +1,7 @@
-﻿using Bookify.Data.Data;
-using Bookify.Core.Models;
+﻿using Bookify.Core.Models;
+using Bookify.Data.Data;
 using Bookify.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bookify.Data
 {
@@ -19,6 +20,25 @@ namespace Bookify.Data
         public IRoomRepository Rooms { get; private set; }
         public IGenericRepository<RoomType> RoomTypes { get; private set; }
         public IGenericRepository<Booking> Bookings { get; private set; }
+
+        public async Task<IEnumerable<Booking>> GetUserBookingsAsync(string userId)
+        {
+            return await _context.Bookings
+                .Include(b => b.Room)
+                .ThenInclude(r => r.RoomType)
+                .Where(b => b.UserId == userId)
+                .OrderByDescending(b => b.BookingDate)
+                .ToListAsync();
+        }
+
+        public async Task<Booking?> GetBookingWithDetailsAsync(int id)
+        {
+            return await _context.Bookings
+                .Include(b => b.Room)
+                .ThenInclude(r => r.RoomType)
+                .Include(b => b.User)
+                .FirstOrDefaultAsync(b => b.Id == id);
+        }
 
         public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();
 
