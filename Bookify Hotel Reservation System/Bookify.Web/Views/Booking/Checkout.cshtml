@@ -1,0 +1,31 @@
+@model Bookify.Data.Entities.Booking
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    ViewData["Title"] = "Checkout";
+}
+<h2>Checkout</h2>
+<div>
+    <p>Room: @Model.RoomId</p>
+    <p>Dates: @Model.CheckIn.ToShortDateString() - @Model.CheckOut.ToShortDateString()</p>
+    <p>Total: @Model.TotalCost</p>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    const stripe = Stripe('@(Configuration["Stripe:PublishableKey"])');
+    const clientSecret = '@(ViewBag.ClientSecret)';
+    async function pay(){
+        const result = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {card: {token: 'tok_visa'} }
+        });
+        if(result.error){ toastr.error(result.error.message); }
+        else {
+            toastr.success('Payment completed');
+            fetch('/Booking/Confirm', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ paymentIntentId: result.paymentIntent.id })
+            });
+        }
+    }
+    pay();
+    </script>

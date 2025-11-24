@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Bookify";
+}
+<section class="py-5 bg-light mb-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <h1 class="display-5 fw-bold">Bookify</h1>
+                <p class="lead">Search rooms, reserve your stay, and pay securely.</p>
+                <div class="mt-3">
+                    <a class="btn btn-primary me-2" asp-controller="Rooms" asp-action="Index">Browse Rooms</a>
+                    <a class="btn btn-outline-secondary me-2" asp-controller="Booking" asp-action="Cart">View Cart</a>
+                    <a class="btn btn-outline-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card shadow-sm">
+                    <div class="card-header">Quick Search</div>
+                    <div class="card-body">
+                        <form method="get" asp-controller="Rooms" asp-action="Index" class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Check In</label>
+                                <input type="date" name="checkIn" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Check Out</label>
+                                <input type="date" name="checkOut" class="form-control" />
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-success w-100">Search Availability</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ </section>
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-md-4 mb-3">
+            <div class="p-4 border rounded">
+                <h5>Secure Payments</h5>
+                <p>Stripe-powered checkout and instant confirmations.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="p-4 border rounded">
+                <h5>Flexible Search</h5>
+                <p>Filter by dates and room types to find the best fit.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="p-4 border rounded">
+                <h5>Admin Controls</h5>
+                <p>Manage rooms, types, bookings, and users.</p>
+            </div>
+        </div>
+    </div>
+</div>

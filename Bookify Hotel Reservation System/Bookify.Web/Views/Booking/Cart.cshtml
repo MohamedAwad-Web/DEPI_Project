@@ -1,0 +1,25 @@
+@model IEnumerable<Bookify.Web.Controllers.ReservationCartItem>
+@{
+    ViewData["Title"] = "Reservation Cart";
+}
+<h2>Reservation Cart</h2>
+<table class="table">
+    <thead><tr><th>Room</th><th>Check In</th><th>Check Out</th><th></th></tr></thead>
+    <tbody>
+    @foreach(var i in Model){
+        <tr>
+            <td>@i.RoomId</td>
+            <td>@i.CheckIn.ToShortDateString()</td>
+            <td>@i.CheckOut.ToShortDateString()</td>
+            <td>
+                <form asp-action="Checkout" method="post">
+                    <input type="hidden" name="roomId" value="@i.RoomId" />
+                    <input type="hidden" name="checkIn" value="@i.CheckIn.ToString("yyyy-MM-dd")" />
+                    <input type="hidden" name="checkOut" value="@i.CheckOut.ToString("yyyy-MM-dd")" />
+                    <button class="btn btn-primary">Checkout</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+ </table>
